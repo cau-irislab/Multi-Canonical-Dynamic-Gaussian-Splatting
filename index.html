@@ -2,383 +2,377 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
-  <!-- Replace the content tag with appropriate information -->
-  <!-- Search Engine -->
-  <meta name="description" content="MemoryTalker: A novel speech-driven 3D facial animation framework that generates personalized facial motion using only audio input.">
+  <meta name="description" content="Multi-Canonical Dynamic Gaussian Splatting for Accurate Geometry and High-Fidelity Rendering">
 
-  <!-- Open Graph / Facebook -->
-  <meta property="og:title" content="MemoryTalker: Personalized Speech-Driven 3D Facial Animation via Audio-Guided Stylization" />
-  <meta property="og:description" content="MemoryTalker is a novel framework that generates personalized 3D facial animations from speech audio alone, without requiring speaker labels or 3D mesh priors." />
-  
-  <meta property="og:url" content="https://cau-irislab.github.io/ICCV25-MemoryTalker/"/>
-  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
-  <meta property="og:image" content="static/image/IRIS_Logo.png" />
+  <!-- Open Graph -->
+  <meta property="og:title" content="Multi-Canonical Dynamic Gaussian Splatting for Accurate Geometry and High-Fidelity Rendering"/>
+  <meta property="og:description" content="A unified framework that mitigates the trade-off between rendering fidelity and geometric accuracy in dynamic 3D Gaussian reconstruction via MCDM, SAAD, and RBER."/>
+  <meta property="og:url" content=""/>
+  <meta property="og:image" content="static/images/fig_teaser.png"/>
   <meta property="og:image:width" content="1200"/>
   <meta property="og:image:height" content="630"/>
 
-
-  <meta name="twitter:title" content="TWITTER BANNER TITLE META TAG">
-  <meta name="twitter:description" content="TWITTER BANNER DESCRIPTION META TAG">
-  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
-  <meta name="twitter:image" content="static/images/your_twitter_banner_image.png">
+  <!-- Twitter -->
+  <meta name="twitter:title" content="Multi-Canonical Dynamic Gaussian Splatting">
+  <meta name="twitter:description" content="A unified framework for accurate geometry and high-fidelity rendering of dynamic 3D scenes.">
+  <meta name="twitter:image" content="static/images/fig_teaser.png">
   <meta name="twitter:card" content="summary_large_image">
-  <!-- Keywords for your paper to be indexed by-->
-  <meta name="keywords" content="KEYWORDS SHOULD BE PLACED HERE">
+
+  <meta name="keywords" content="Dynamic 3D Gaussian Splatting, Novel View Synthesis, Mesh Reconstruction, MCDM, SAAD, RBER, Dynamic Scene Reconstruction">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
-  <title>MemoryTalker: Personalized Speech-Driven 3D Facial Animation</title>
+  <title>Multi-Canonical Dynamic Gaussian Splatting</title>
   <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
-  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
-  rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
 
   <link rel="stylesheet" href="static/css/bulma.min.css">
   <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
   <link rel="stylesheet" href="static/css/bulma-slider.min.css">
   <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
-  <link rel="stylesheet"
-  href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="static/css/index.css">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
   <script defer src="static/js/fontawesome.all.min.js"></script>
   <script src="static/js/bulma-carousel.min.js"></script>
   <script src="static/js/bulma-slider.min.js"></script>
   <script src="static/js/index.js"></script>
+
+  <style>
+    .video-label {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #363636;
+    }
+    .video-grid video {
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .method-block {
+      background: #f8f8f8;
+      border-left: 4px solid #3273dc;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.25rem;
+      border-radius: 0 6px 6px 0;
+    }
+    .method-block strong {
+      color: #3273dc;
+    }
+    .ablation-divider {
+      margin: 3rem 0;
+      border: none;
+      border-top: 1px solid #dbdbdb;
+    }
+  </style>
 </head>
 <body>
 
+<!-- ─── Hero ──────────────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
 
-  <section class="hero">
-    <div class="hero-body">
-      <div class="container is-max-desktop">
-        <div class="columns is-centered">
-          <div class="column has-text-centered">
-            <h1 class="title is-1 publication-title">MemoryTalker: Personalized Speech-Driven 3D Facial Animation via Audio-Guided Stylization</h1>
-            <h2 class="title is-3">ICCV 2025</h2>
-                  <div class="is-size-5 publication-authors">
-                    <!-- Paper authors -->
-                    <span class="author-block">
-                      <a href="#" target="_blank">Hyung Kyu Kim</a><sup>1</sup>,</span>
-                    <span class="author-block">
-                      <a href="#" target="_blank">Sangmin Lee</a><sup>2,*</sup>,</span>
-                    <span class="author-block">
-                      <a href="#" target="_blank">Hak Gu Kim</a><sup>3,*</sup>
-                    </span>
-                  </div>
+          <h1 class="title is-1 publication-title">
+            Multi-Canonical Dynamic Gaussian Splatting<br>
+            for Accurate Geometry and High-Fidelity Rendering
+          </h1>
 
-                  <!-- <div class="is-size-5 publication-authors">
-                    <span class="eql-cntrb"><br><sup>1</sup>Department of Imaging Science and Arts, Chung-Ang University, South Korea</span>
-                    <span class="eql-cntrb"><br><sup>2</sup>Department of Computer Science and Engineering, Korea University, South Korea</span>
-                    <span class="eql-cntrb"><br><sup>3</sup>Department of Metaverse Convergence, Chung-Ang University, South Korea</span>
-                    <span class="eql-cntrb"><br><sup>*</sup>Corresponding Author</span>
-                  </div> -->
+          <!-- TODO: Uncomment and fill in venue when accepted -->
+          <!-- <h2 class="title is-3">IEEE TIP 2025</h2> -->
 
-                  
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="#" target="_blank">Seungjae Lee</a><sup>1</sup>,&nbsp;
+            </span>
+            <span class="author-block">
+              <a href="#" target="_blank">Ho Jun Kim</a><sup>1</sup>,&nbsp;
+            </span>
+            <span class="author-block">
+              <a href="#" target="_blank">Hak Gu Kim</a><sup>1,†</sup>
+            </span>
+          </div>
 
-                  <div class="column has-text-centered">
-                    <div class="publication-links">
-                         <!-- Arxiv PDF link -->
-                      <span class="link-block">
-                        <a href="https://arxiv.org/abs/2507.20562" target="_blank"
-                        class="external-link button is-normal is-rounded is-dark">
-                        <span class="icon">
-                          <i class="fas fa-file-pdf"></i>
-                        </span>
-                        <span>Paper</span>
-                      </a>
-                    </span>
+          <div class="is-size-6 publication-authors" style="margin-top: 0.5rem;">
+            <span class="eql-cntrb"><sup>1</sup>Department of Metaverse Convergence, Chung-Ang University, South Korea</span>
+            &nbsp;&nbsp;
+            <span class="eql-cntrb"><sup>†</sup>Corresponding Author</span>
+          </div>
 
-                    <!-- Supplementary PDF link -->
-                    <span class="link-block">
-                      <a href="https://arxiv.org/abs/2507.20562" target="_blank"
-                      class="external-link button is-normal is-rounded is-dark">
-                      <span class="icon">
-                        <i class="fas fa-file-pdf"></i>
-                      </span>
-                      <span>Supplementary</span>
-                    </a>
-                  </span>
+          <!-- Lab Logo -->
+          <div style="margin-top: 1.25rem;">
+            <img src="static/images/IRIS_Logo.png" alt="IRIS Lab" style="height: 48px;">
+          </div>
 
-                  <!-- Github link -->
-                  <span class="link-block">
-                    <a href="https://github.com/kimhyungkyu-1208/MemoryTalker" target="_blank"
-                    class="external-link button is-normal is-rounded is-dark">
-                    <span class="icon">
-                      <i class="fab fa-github"></i>
-                    </span>
-                    <span>Code</span>
-                  </a>
-                </span>
+          <!-- Links -->
+          <div class="column has-text-centered" style="margin-top: 0.5rem;">
+            <div class="publication-links">
+              <!-- Paper: Coming Soon -->
+              <span class="link-block">
+                <a class="external-link button is-normal is-rounded is-dark"
+                   style="opacity: 0.6; cursor: default; pointer-events: none;">
+                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                  <span>Paper (Coming Soon)</span>
+                </a>
+              </span>
 
-                <!-- ArXiv abstract Link -->
-                <span class="link-block">
-                  <a href="https://arxiv.org/abs/2507.20562" target="_blank"
-                  class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                    <i class="ai ai-arxiv"></i>
-                  </span>
-                  <span>arXiv</span>
+              <!-- GitHub: TODO fill in repo URL -->
+              <span class="link-block">
+                <a class="external-link button is-normal is-rounded is-dark"
+                   style="opacity: 0.6; cursor: default; pointer-events: none;">
+                  <span class="icon"><i class="fab fa-github"></i></span>
+                  <span>Code (Coming Soon)</span>
                 </a>
               </span>
             </div>
           </div>
+
         </div>
       </div>
     </div>
   </div>
 </section>
 
-
-<!-- Teaser video-->
+<!-- ─── Teaser Image ──────────────────────────────────────────────────────── -->
 <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body">
-      <video poster="" id="tree" autoplay controls muted loop height="100%">
-        <!-- Your video here -->
-        <source src="static/videos/teaser_video.mp4"
-        type="video/mp4">
-      </video>
-      <h2 class="subtitle has-text-centered">
-        MemoryTalker: Realistic 3D facial animation from audio alone — no priors, just input voice. 
+      <figure class="image">
+        <img src="static/images/fig_teaser.png"
+             alt="Our method achieves both high-fidelity rendering and geometrically accurate mesh reconstruction, resolving the trade-off inherent in prior dynamic Gaussian Splatting methods.">
+      </figure>
+      <h2 class="subtitle has-text-centered" style="margin-top: 1.5rem;">
+        Existing dynamic Gaussian Splatting methods face a persistent trade-off between rendering quality and mesh accuracy.
+        Our method resolves this by jointly improving both, yielding sharp renderings and clean mesh geometry across diverse dynamic scenes.
       </h2>
     </div>
   </div>
 </section>
-<!-- End teaser video -->
 
-<!-- Paper abstract -->
+<!-- ─── Abstract ─────────────────────────────────────────────────────────── -->
 <section class="section hero is-light">
   <div class="container is-max-desktop">
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
         <h2 class="title is-3">Abstract</h2>
-
-        <figure class="image" style="margin-bottom: 2rem;">
-          <img src="static/images/iccv25.png" alt="The intuition of MemoryTalker for personalized speech-driven 3D facial animation.">
-        </figure>
         <div class="content has-text-justified">
           <p>
-            Speech-driven 3D facial animation aims to synthesize realistic facial motion sequences from given audio, matching the speaker's speaking style. However, previous works often require priors such as class labels of a speaker or additional 3D facial meshes at inference, which makes them fail to reflect the speaking style and limits their practical use. To address these issues, we propose MemoryTalker which enables realistic and accurate 3D facial motion synthesis by reflecting speaking style only with audio input to maximize usability in applications. Our framework consists of two training stages: The 1-stage is storing and retrieving general motion (i.e., Memorizing), and the 2-stage is to perform the personalized facial motion synthesis (i.e., Animating) with the motion memory stylized by the audio-driven speaking style feature. In this second stage, our model learns about which facial motion types should be emphasized for a particular piece of audio. As a result, our MemoryTalker can generate a reliable personalized facial animation without additional prior information. With quantitative and qualitative evaluations, as well as user study, we show the effectiveness of our model and its performance enhancement for personalized facial animation over state-of-the-art methods.
+            While 3D Gaussian Splatting (3DGS) has enabled high-quality reconstruction of dynamic scenes,
+            a persistent tension remains between Novel View Synthesis (NVS) fidelity and mesh geometric accuracy.
+            We argue that this arises because deformation modeling, surface alignment, and appearance expressiveness
+            compete for shared representational degrees of freedom. To mitigate this rendering–geometry trade-off,
+            we propose <strong>Multi-Canonical Dynamic Gaussian Splatting</strong>.
+          </p>
+          <p>
+            <strong>Multi-Canonical Deformation Modeling (MCDM)</strong> partitions the sequence into localized
+            temporal segments to reduce motion over-smoothing.
+            <strong>Surface-Aligned Anisotropic Densification (SAAD)</strong> initializes 2D Gaussians with scales
+            and rotations derived from local face geometry for more faithful surface support.
+            <strong>Residual-Based Expressiveness Restoration (RBER)</strong> restores fine appearance details
+            through sequential 3D and 2D residual refinement on top of a geometry-stabilized base.
+            Experiments on DG-Mesh, D-NeRF, and Nerfies show that our method improves the rendering–geometry
+            balance, yielding consistent gains in rendering quality while preserving or improving mesh accuracy.
           </p>
         </div>
       </div>
     </div>
   </div>
 </section>
-<!-- End paper abstract -->
 
-<!-- Paper Limitation -->
+<!-- ─── Method ───────────────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Method</h2>
+    <figure class="image" style="margin-bottom: 2.5rem;">
+      <img src="static/images/fig_method.png"
+           alt="Overview of the proposed framework integrating MCDM, SAAD, and RBER.">
+    </figure>
+    <div class="content has-text-justified">
+      <p>
+        Our pipeline integrates three core modules that progressively decouple the competing objectives
+        in dynamic Gaussian reconstruction — temporal deformation span, geometry-support formation,
+        and residual appearance modeling.
+      </p>
+
+      <div class="method-block">
+        <strong>① Multi-Canonical Deformation Modeling (MCDM)</strong><br>
+        Addresses excessive temporal deformation span by partitioning the sequence into K localized
+        temporal groups, each assigned to an independent canonical Gaussian set. A global warm-up stage
+        first establishes a sequence-level prior, which is then cloned into K group-specific canonical sets.
+        Since each set covers only a restricted temporal segment, the deformation network operates over a
+        reduced motion range, mitigating over-smoothing and improving per-frame fidelity.
+      </div>
+
+      <div class="method-block">
+        <strong>② Surface-Aligned Anisotropic Densification (SAAD)</strong><br>
+        Corrects the geometry-driven bias of conventional isotropic densification under mesh supervision.
+        Instead of inserting primitives at face centroids with isotropic scales, SAAD derives the initial
+        covariance of each new Gaussian from the eigendecomposition of local face vertex covariance,
+        aligning its tangent-plane support with the local surface structure. This turns densification from
+        a purely coverage-seeking operation into a surface-aligned refinement process, improving both
+        geometric coverage and mesh accuracy.
+      </div>
+
+      <div class="method-block">
+        <strong>③ Residual-Based Expressiveness Restoration (RBER)</strong><br>
+        Recovers the fine-scale appearance capacity attenuated by strong surface supervision. Built on top
+        of the geometry-stabilized base, RBER employs two sequential residual stages: a 3D Gaussian
+        deformation residual network (<em>f<sub>DR</sub></em>) that applies local parameter corrections to each
+        Gaussian, followed by a 2D image residual branch using a Local Texture Estimator (<em>f<sub>LTE</sub></em>)
+        that recovers remaining high-frequency texture discrepancy. This restores appearance details
+        without compromising the geometric consistency established by MCDM and SAAD.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Video Results ────────────────────────────────────────────────────── -->
 <section class="section hero is-light">
   <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Limitation</h2>
+    <h2 class="title is-3 has-text-centered">Video Results</h2>
+    <p class="has-text-centered" style="margin-bottom: 2rem; color: #555;">
+      Each video shows our reconstructed dynamic scene (Gaussian rendering + mesh) across time.
+    </p>
 
-        <figure class="image" style="margin-bottom: 2rem;">
-          <img src="static/images/fig_limitation.png" alt="The intuition of MemoryTalker for personalized speech-driven 3D facial animation.">
-        </figure>
-        <div class="content has-text-justified">
-          <p>
-            Previous studies on personalized 3D facial animation have practical limitations. Methods based on 
-            (a) one-hot encoding require speaker identity classes during inference, making it impossible for them to handle new, unseen speakers. This severely limits their practical application.
-            (b) a sequence of 3D facial meshes to control for different speaking styles. While these methods can capture the styles of unseen speakers, they are impractical for real-world applications because they require this additional 3D mesh data as input during inference.
-            (c) Our proposed MemoryTalker overcomes these limitations. It is designed to reflect a speaker's style using only the audio input. MemoryTalker does not require any prior information—such as speaker ID classes or reference facial meshes—at inference time, making it a more practical approach for real-world applications
-          </p>
-        </div>
+    <div class="columns is-multiline video-grid">
+      <div class="column is-half has-text-centered">
+        <p class="video-label">Girlwalk</p>
+        <video autoplay controls muted loop width="100%">
+          <source src="static/videos/video_girlwalk.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="column is-half has-text-centered">
+        <p class="video-label">Hook</p>
+        <video autoplay controls muted loop width="100%">
+          <source src="static/videos/video_hook.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="column is-half has-text-centered">
+        <p class="video-label">Jumping Jacks</p>
+        <video autoplay controls muted loop width="100%">
+          <source src="static/videos/video_jumpingjacks.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="column is-half has-text-centered">
+        <p class="video-label">Stand Up</p>
+        <video autoplay controls muted loop width="100%">
+          <source src="static/videos/video_standup.mp4" type="video/mp4">
+        </video>
       </div>
     </div>
   </div>
 </section>
-<!-- End paper Limitation -->
 
-<!-- Paper Proposed Method -->
+<!-- ─── Qualitative Comparison ───────────────────────────────────────────── -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Qualitative Comparison</h2>
+    <figure class="image" style="margin-bottom: 2rem;">
+      <img src="static/images/fig_qualitative_comparison.png"
+           alt="Qualitative comparison with DG-Mesh and Dynamic-2DGS on DG-Mesh and D-NeRF datasets.">
+    </figure>
+    <div class="content has-text-justified">
+      <p>
+        We compare against state-of-the-art dynamic reconstruction methods — DG-Mesh and Dynamic-2DGS —
+        on the DG-Mesh and D-NeRF datasets. For each method, we show both the direct Gaussian Splatting (GS)
+        rendering and the extracted mesh surface.
+        DG-Mesh yields blurry renderings, and Dynamic-2DGS produces fragmented or incomplete surfaces
+        (e.g., missing parts in <em>Horse</em>).
+        Our method reconstructs sharp appearances with topologically clean meshes, achieving superior
+        performance in both rendering fidelity and geometric accuracy.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Ablation Studies ─────────────────────────────────────────────────── -->
 <section class="section hero is-light">
   <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Proposed Method</h2>
+    <h2 class="title is-3 has-text-centered">Ablation Study</h2>
 
-        <figure class="image" style="margin-bottom: 2rem;">
-          <img src="static/images/fig_method.png" alt="The intuition of MemoryTalker for personalized speech-driven 3D facial animation.">
+    <!-- Ablation 1 -->
+    <div class="columns is-centered" style="margin-top: 2rem;">
+      <div class="column is-four-fifths has-text-centered">
+        <h3 class="title is-4">Effectiveness of MCDM</h3>
+        <figure class="image" style="margin-bottom: 1.5rem;">
+          <img src="static/images/ablation1.png"
+               alt="Ablation on MCDM: baseline vs. multi-canonical deformation across an extended temporal sequence.">
         </figure>
         <div class="content has-text-justified">
           <p>
-            We propose MemoryTalker, a novel framework for personalized speech-driven 3D facial animation that can reflect an individual's speaking style using only audio input. Our method uses a two-stage training strategy: 1) Memorizing general facial motions and 2) Animating personalized motions using a stylized memory.  
-          </p>
-          <p>
-            Stage 1: Storing and Recalling General Facial Motion (Memorizing)
-            In the first stage, our goal is to create a Motion Memory that stores general facial motion features. To achieve this, we use the text representation extracted from an audio signal by an Automatic Speech Recognition (ASR) model as a query to access the memory. This allows the model to map the facial motions of various speakers for a single phoneme to a consistent representation, ensuring that it learns general and speaker-neutral facial movements (e.g., the common lip shape for the word "who"). The recalled general motion feature is then passed to a motion decoder to synthesize a base facial animation.
-          </p>
-          <p>
-            Stage 2: Generating Personalized Facial Motion (Animating)
-            In the second stage, we synthesize a personalized facial animation that reflects the speaker's unique style. To do this, we first encode a speaking style feature from the input audio using a style encoder trained with a triplet loss, which helps distinguish between different speakers' styles. This style feature is then used to refine and update the motion memory from Stage 1, creating a Stylized Motion Memory. This stylized memory now contains personalized motion information. Finally, the personalized motion feature is recalled and used by the motion decoder to generate the final 3D facial animation that accurately reflects both the speech content and the individual's speaking style.
+            We compare the baseline (single canonical space) against MCDM (multiple canonical spaces)
+            across an extended temporal sequence (T = 0, …, 10).
+            The baseline forces a single canonical representation to span the entire motion range,
+            causing the deformation network to over-smooth time-specific structures, leading to blurred
+            renderings and incoherent geometry.
+            MCDM redistributes temporal modeling burden across K canonical sets.
+            Since each canonical set covers only a localized segment, per-frame fidelity improves
+            substantially, yielding sharper appearances and more coherent mesh reconstruction.
           </p>
         </div>
       </div>
     </div>
-  </div>
-</section>
-<!-- End paper Proposed Method -->
 
-<!-- Paper Qualitative Result -->
-<section class="section hero is-light">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Qualitative Result</h2>
+    <hr class="ablation-divider">
 
-        <figure class="image" style="margin-bottom: 2rem;">
-          <img src="static/images/fig_qualitative_comparison.png" alt="The intuition of MemoryTalker for personalized speech-driven 3D facial animation.">
+    <!-- Ablation 2 -->
+    <div class="columns is-centered">
+      <div class="column is-four-fifths has-text-centered">
+        <h3 class="title is-4">Effectiveness of SAAD</h3>
+        <figure class="image" style="margin-bottom: 1.5rem;">
+          <img src="static/images/ablation2.png"
+               alt="Ablation on SAAD: isotropic densification vs. surface-aligned anisotropic densification.">
         </figure>
         <div class="content has-text-justified">
           <p>
-            This figure presents a qualitative comparison of our MemoryTalker against state-of-the-art speech-driven 3D facial animation methods on the VOCASET and BIWI datasets.
+            We compare isotropic densification (baseline) against our Surface-Aligned Anisotropic
+            Densification (SAAD). Under mesh supervision, isotropic primitives inserted at face centroids
+            ignore local surface anisotropy, progressively degrading rendering quality as they accumulate
+            (visible blur at 10k → 25k iterations).
+            SAAD derives the initial covariance of each new Gaussian from local face vertex statistics
+            via eigendecomposition, producing surface-aligned primitives that preserve structural detail.
+            The result is sharper boundaries and cleaner local structure throughout training.
           </p>
         </div>
       </div>
     </div>
-  </div>
-</section>
-<!-- End paper Qualitative Result -->
 
-
-<section class="section hero is-light">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Ablation Study: Facial Movement Analysis</h2>
-
-        <figure class="image" style="margin-bottom: 2rem;">
-          <img src="static/images/ablation1.png" alt="Ablation study comparing facial movements with and without 2-stage training for the word Stab.">
-        </figure>
-        <div class="content has-text-justified">
-          <p>
-            This analysis demonstrates the effectiveness of our proposed <strong>two-stage training strategy</strong> by visualizing the facial dynamics for the word "Stab". 
-            The model trained only with the 1st stage (top row, 'w/o 2-stage') produces animations with limited and less expressive lip motion. 
-            In contrast, after incorporating the 2nd stage for personalization (middle row, 'w/ 2-stage'), the model generates much more dynamic and accurate movements that closely match the reference. 
-            This visually confirms that our two-stage approach is crucial for capturing the subtle dynamics of realistic facial expressions.
-          </p>
-        </div>
-      </div>
-    </div>
   </div>
 </section>
 
-<section class="section hero is-light">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Ablation Study: Speaker Style Disentanglement (t-SNE)</h2>
-
-        <figure class="image" style="margin-bottom: 2rem;">
-          <img src="static/images/ablation2.png" alt="t-SNE visualization of speaker style features with and without 2-stage training.">
-        </figure>
-        <div class="content has-text-justified">
-          <p>
-            This t-SNE visualization illustrates how our two-stage training effectively disentangles unique speaker styles.
-            In the left plot (a), showing the feature distribution without the 2nd stage, the motion features from different speakers (represented by different colors) are heavily overlapped and poorly separated. 
-            This indicates the model is only learning generic, non-personalized motions.
-            However, the right plot (b) shows the result after our full two-stage training.
-            The features for each speaker form distinct, well-defined clusters.
-            This proves that our model successfully learns to capture and separate personalized speaking styles from audio alone.
-          </p>
-        </div>
-      </div>
-    </div>
+<!-- ─── BibTeX ───────────────────────────────────────────────────────────── -->
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{TODO,
+  author  = {TODO},
+  title   = {Multi-Canonical Dynamic Gaussian Splatting for Accurate Geometry and High-Fidelity Rendering},
+  journal = {TODO},
+  year    = {2025}
+}</code></pre>
   </div>
 </section>
 
-
-<!-- Image carousel -->
-<!-- <section class="hero is-small">
-  <div class="hero-body">
-    <div class="container">
-      <div id="results-carousel" class="carousel results-carousel">
-       <div class="item">
-        <img src="static/images/fig_method.png" alt="Method" style="display: block; max-width: 70%; margin: auto;"/>
-        <h2 class="subtitle has-text-centered">
-          Overview of Our Proposed Method
-        </h2>
-      </div>
-      <div class="item">
-        <img src="static/images/fig_qualitative_comparison.png" alt="Qualitative comparison" style="display: block; max-width: 70%; margin: auto;"/>
-        <h2 class="subtitle has-text-centered">
-          Qualitative Comparison
-        </h2>
-      </div>
-      <div class="item">
-        <img src="static/images/fig_limitation.png" alt="Limitation" style="display: block; max-width: 70%; margin: auto;"/>
-        <h2 class="subtitle has-text-centered">
-         Limitations of Existing Methods
-       </h2>
-     </div>
-  </div>
-</div>
-</div>
-</section> -->
-<!-- End image carousel -->
-
-
-
-<!-- Paper poster -->
-<!-- <section class="hero is-small is-light">
-  <div class="hero-body">
-    <div class="container">
-      <h2 class="title">Poster</h2>
-
-      <iframe  src="static/pdfs/iccv25_poster-sample.pdf" width="100%" height="550">
-          </iframe>
-        
-      </div>
-    </div>
-  </section> -->
-<!--End paper poster -->
-
-
-<!--BibTex citation -->
-  <section class="section" id="BibTeX">
-    <div class="container is-max-desktop content">
-      <h2 class="title">BibTeX</h2>
-      <pre><code>
-        @article{MemoryTalker,
-        author = {Kim, Hyung Kyu and Lee, Sangmin and Kim, Hak Gu}, 
-        title = {MemoryTalker: Personalized Speech-Driven 3D Facial Animation via Audio-Guided Stylization},
-        journal = {Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)}, 
-        month = {October},
-        year = {2025}
-        }
-      </code></pre>
-    </div>
-</section>
-<!--End BibTex citation -->
-
-
-  <footer class="footer">
+<!-- ─── Footer ───────────────────────────────────────────────────────────── -->
+<footer class="footer">
   <div class="container">
     <div class="columns is-centered">
       <div class="column is-8">
-        <div class="content">
-
+        <div class="content has-text-centered">
           <p>
-            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
-            You are free to borrow the of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
-            Commons Attribution-ShareAlike 4.0 International License</a>.
+            This page was built using the
+            <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a>
+            adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+            Licensed under
+            <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.
           </p>
-
         </div>
       </div>
     </div>
   </div>
 </footer>
 
-<!-- Statcounter tracking code -->
-  
-<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
-
-    <!-- End of Statcounter Code -->
-
-  </body>
-  </html>
+</body>
+</html>
