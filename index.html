@@ -32,6 +32,15 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="static/css/index.css">
 
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script defer src="static/js/fontawesome.all.min.js"></script>
   <script src="static/js/bulma-carousel.min.js"></script>
@@ -48,6 +57,28 @@
     .video-grid video {
       border-radius: 6px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    /* ── 3D Mesh Viewer ── */
+    .mesh-viewer-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      background: #1a1a2e;
+      cursor: grab;
+    }
+    .mesh-viewer-wrap:active { cursor: grabbing; }
+    .mesh-viewer-wrap canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+    .mesh-hint {
+      font-size: 0.8rem;
+      color: #888;
+      margin-top: 0.4rem;
     }
 
     /* ── Video Comparison Slider ── */
@@ -514,6 +545,112 @@
 
   </div>
 </section>
+
+<!-- ─── 3D Mesh Viewer ──────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">3D Mesh Results</h2>
+    <p class="has-text-centered" style="margin-bottom: 2rem; color: #555;">
+      Drag to rotate &nbsp;·&nbsp; Scroll to zoom &nbsp;·&nbsp; Right-drag to pan
+    </p>
+    <div class="columns is-multiline video-grid">
+      <div class="column is-one-third has-text-centered">
+        <p class="video-label">Bird</p>
+        <div class="mesh-viewer-wrap" data-ply="static/mesh/bird.ply"></div>
+        <p class="mesh-hint">drag / scroll / right-drag</p>
+      </div>
+      <div class="column is-one-third has-text-centered">
+        <p class="video-label">Duck</p>
+        <div class="mesh-viewer-wrap" data-ply="static/mesh/duck.ply"></div>
+        <p class="mesh-hint">drag / scroll / right-drag</p>
+      </div>
+      <div class="column is-one-third has-text-centered">
+        <p class="video-label">T-Rex</p>
+        <div class="mesh-viewer-wrap" data-ply="static/mesh/trex.ply"></div>
+        <p class="mesh-hint">drag / scroll / right-drag</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="module">
+import * as THREE from 'three';
+import { PLYLoader } from 'three/addons/loaders/PLYLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+document.querySelectorAll('.mesh-viewer-wrap[data-ply]').forEach(function(wrap) {
+  var plyUrl = wrap.getAttribute('data-ply');
+
+  // Renderer
+  var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  wrap.appendChild(renderer.domElement);
+
+  // Scene / Camera
+  var scene  = new THREE.Scene();
+  scene.background = new THREE.Color(0x1a1a2e);
+  var camera = new THREE.PerspectiveCamera(45, 1, 0.001, 1000);
+
+  // Lights
+  scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+  var dirLight = new THREE.DirectionalLight(0xffffff, 1.0);
+  dirLight.position.set(1, 2, 2);
+  scene.add(dirLight);
+
+  // Controls
+  var controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor  = 0.08;
+
+  // Resize observer to keep canvas filling the wrapper
+  var ro = new ResizeObserver(function(entries) {
+    var e = entries[0].contentRect;
+    renderer.setSize(e.width, e.height, false);
+    camera.aspect = e.width / e.height;
+    camera.updateProjectionMatrix();
+  });
+  ro.observe(wrap);
+
+  // Load PLY
+  new PLYLoader().load(plyUrl, function(geometry) {
+    geometry.computeVertexNormals();
+
+    var mat;
+    if (geometry.hasAttribute('color')) {
+      mat = new THREE.MeshStandardMaterial({ vertexColors: true });
+    } else {
+      mat = new THREE.MeshStandardMaterial({ color: 0x88aacc });
+    }
+
+    var mesh = new THREE.Mesh(geometry, mat);
+
+    // Center and fit to view
+    geometry.computeBoundingBox();
+    var box    = geometry.boundingBox;
+    var center = new THREE.Vector3();
+    box.getCenter(center);
+    mesh.position.sub(center);
+
+    var size   = new THREE.Vector3();
+    box.getSize(size);
+    var maxDim = Math.max(size.x, size.y, size.z);
+    var scale  = 2.0 / maxDim;
+    mesh.scale.setScalar(scale);
+
+    scene.add(mesh);
+    camera.position.set(0, 0, 3);
+    controls.update();
+  });
+
+  // Render loop
+  (function animate() {
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
+  })();
+});
+</script>
 
 <!-- ─── BibTeX ───────────────────────────────────────────────────────────── -->
 <section class="section" id="BibTeX">
