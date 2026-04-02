@@ -49,6 +49,81 @@
       border-radius: 6px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     }
+
+    /* ── Video Comparison Slider ── */
+    .video-compare-wrap {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      cursor: col-resize;
+      user-select: none;
+    }
+    .video-compare-wrap video {
+      display: block;
+      width: 100%;
+      height: auto;
+      pointer-events: none;
+    }
+    .video-compare-wrap .vc-right {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      clip-path: inset(0 50% 0 0);
+    }
+    .vc-divider {
+      position: absolute;
+      top: 0; bottom: 0;
+      left: 50%;
+      width: 3px;
+      background: #fff;
+      transform: translateX(-50%);
+      pointer-events: none;
+      z-index: 10;
+    }
+    .vc-handle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 36px; height: 36px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none;
+      z-index: 11;
+    }
+    .vc-handle::before,
+    .vc-handle::after {
+      content: '';
+      display: block;
+      width: 0; height: 0;
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+    }
+    .vc-handle::before {
+      border-right: 8px solid #555;
+      margin-right: 4px;
+    }
+    .vc-handle::after {
+      border-left: 8px solid #555;
+    }
+    .vc-label-left, .vc-label-right {
+      position: absolute;
+      top: 10px;
+      padding: 3px 10px;
+      background: rgba(0,0,0,0.55);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 700;
+      border-radius: 4px;
+      pointer-events: none;
+      z-index: 12;
+    }
+    .vc-label-left  { left:  10px; }
+    .vc-label-right { right: 10px; }
     .method-block {
       background: #f8f8f8;
       border-left: 4px solid #3273dc;
@@ -264,6 +339,74 @@
     </div>
   </div>
 </section>
+
+<!-- ─── Video Comparison Slider ──────────────────────────────────────────── -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Video Comparison</h2>
+    <p class="has-text-centered" style="margin-bottom: 2rem; color: #555;">
+      Drag the divider left or right to compare our method with DG-Mesh.
+    </p>
+
+    <div class="columns is-multiline video-grid">
+      <!-- Horse -->
+      <div class="column is-half has-text-centered">
+        <p class="video-label">Horse</p>
+        <div class="video-compare-wrap" data-compare>
+          <!-- left: DG-Mesh (background) -->
+          <video autoplay muted loop playsinline>
+            <source src="static/videos/comparison/horse_dgmesh.mp4" type="video/mp4">
+          </video>
+          <!-- right: Ours (clipped) -->
+          <video class="vc-right" autoplay muted loop playsinline>
+            <source src="static/videos/comparison/horse_ours.mp4" type="video/mp4">
+          </video>
+          <div class="vc-divider"></div>
+          <div class="vc-handle"></div>
+          <span class="vc-label-left">DG-Mesh</span>
+          <span class="vc-label-right">Ours</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  function initCompare(wrap) {
+    var pct = 50;
+    var right  = wrap.querySelector('.vc-right');
+    var divider = wrap.querySelector('.vc-divider');
+    var handle  = wrap.querySelector('.vc-handle');
+    var dragging = false;
+
+    // sync video playback
+    var vids = wrap.querySelectorAll('video');
+    vids[0].addEventListener('timeupdate', function () {
+      if (Math.abs(vids[1].currentTime - vids[0].currentTime) > 0.15)
+        vids[1].currentTime = vids[0].currentTime;
+    });
+
+    function update(x) {
+      var rect = wrap.getBoundingClientRect();
+      pct = Math.max(2, Math.min(98, (x - rect.left) / rect.width * 100));
+      var invPct = (100 - pct).toFixed(2) + '%';
+      right.style.clipPath   = 'inset(0 ' + invPct + ' 0 0)';
+      divider.style.left = pct.toFixed(2) + '%';
+      handle.style.left  = pct.toFixed(2) + '%';
+    }
+
+    wrap.addEventListener('mousedown',  function (e) { dragging = true; update(e.clientX); e.preventDefault(); });
+    wrap.addEventListener('touchstart', function (e) { dragging = true; update(e.touches[0].clientX); }, {passive:true});
+    window.addEventListener('mousemove',  function (e) { if (dragging) update(e.clientX); });
+    window.addEventListener('touchmove',  function (e) { if (dragging) update(e.touches[0].clientX); }, {passive:true});
+    window.addEventListener('mouseup',    function () { dragging = false; });
+    window.addEventListener('touchend',   function () { dragging = false; });
+  }
+
+  document.querySelectorAll('[data-compare]').forEach(initCompare);
+})();
+</script>
 
 <!-- ─── Qualitative Comparison ───────────────────────────────────────────── -->
 <section class="section">
