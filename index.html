@@ -505,7 +505,7 @@ document.querySelectorAll('.mesh-viewer-wrap[data-ply]').forEach(function(wrap) 
   new PLYLoader().load(plyUrl, function(geometry) {
     geometry.computeVertexNormals();
 
-    var mat = new THREE.MeshStandardMaterial({ color: 0xa8c4e0, roughness: 0.6, metalness: 0.05 });
+    var mat = new THREE.MeshStandardMaterial({ color: 0xaaaaaa, roughness: 0.6, metalness: 0.0 });
 
     var mesh = new THREE.Mesh(geometry, mat);
 
