@@ -371,53 +371,6 @@
   </div>
 </section>
 
-<!-- ─── Method ───────────────────────────────────────────────────────────── -->
-<section class="section">
-  <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">Method</h2>
-    <figure class="image" style="margin-bottom: 2.5rem;">
-      <img src="static/images/fig_method.png"
-           alt="Overview of the proposed framework integrating MCDM, SAAD, and RBER.">
-    </figure>
-    <div class="content has-text-justified">
-      <p>
-        Our pipeline integrates three core modules that progressively decouple the competing objectives
-        in dynamic Gaussian reconstruction — temporal deformation span, geometry-support formation,
-        and residual appearance modeling.
-      </p>
-
-      <div class="method-block">
-        <strong>① Multi-Canonical Deformation Modeling (MCDM)</strong><br>
-        Addresses excessive temporal deformation span by partitioning the sequence into K localized
-        temporal groups, each assigned to an independent canonical Gaussian set. A global warm-up stage
-        first establishes a sequence-level prior, which is then cloned into K group-specific canonical sets.
-        Since each set covers only a restricted temporal segment, the deformation network operates over a
-        reduced motion range, mitigating over-smoothing and improving per-frame fidelity.
-      </div>
-
-      <div class="method-block">
-        <strong>② Surface-Aligned Anisotropic Densification (SAAD)</strong><br>
-        Corrects the geometry-driven bias of conventional isotropic densification under mesh supervision.
-        Instead of inserting primitives at face centroids with isotropic scales, SAAD derives the initial
-        covariance of each new Gaussian from the eigendecomposition of local face vertex covariance,
-        aligning its tangent-plane support with the local surface structure. This turns densification from
-        a purely coverage-seeking operation into a surface-aligned refinement process, improving both
-        geometric coverage and mesh accuracy.
-      </div>
-
-      <div class="method-block">
-        <strong>③ Residual-Based Expressiveness Restoration (RBER)</strong><br>
-        Recovers the fine-scale appearance capacity attenuated by strong surface supervision. Built on top
-        of the geometry-stabilized base, RBER employs two sequential residual stages: a 3D Gaussian
-        deformation residual network (<em>f<sub>DR</sub></em>) that applies local parameter corrections to each
-        Gaussian, followed by a 2D image residual branch using a Local Texture Estimator (<em>f<sub>LTE</sub></em>)
-        that recovers remaining high-frequency texture discrepancy. This restores appearance details
-        without compromising the geometric consistency established by MCDM and SAAD.
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ─── Video Results ────────────────────────────────────────────────────── -->
 <section class="section hero is-light">
   <div class="container is-max-desktop">
@@ -694,6 +647,53 @@ document.querySelectorAll('.mesh-frame-btns').forEach(function(btns) {
   document.querySelectorAll('[data-compare]').forEach(initCompare);
 })();
 </script>
+
+<!-- ─── Method ───────────────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Method</h2>
+    <figure class="image" style="margin-bottom: 2.5rem;">
+      <img src="static/images/fig_method.png"
+           alt="Overview of the proposed framework integrating MCDM, SAAD, and RBER.">
+    </figure>
+    <div class="content has-text-justified">
+      <p>
+        Our pipeline integrates three core modules that progressively decouple the competing objectives
+        in dynamic Gaussian reconstruction — temporal deformation span, geometry-support formation,
+        and residual appearance modeling.
+      </p>
+
+      <div class="method-block">
+        <strong>① Multi-Canonical Deformation Modeling (MCDM)</strong><br>
+        Addresses excessive temporal deformation span by partitioning the sequence into K localized
+        temporal groups, each assigned to an independent canonical Gaussian set. A global warm-up stage
+        first establishes a sequence-level prior, which is then cloned into K group-specific canonical sets.
+        Since each set covers only a restricted temporal segment, the deformation network operates over a
+        reduced motion range, mitigating over-smoothing and improving per-frame fidelity.
+      </div>
+
+      <div class="method-block">
+        <strong>② Surface-Aligned Anisotropic Densification (SAAD)</strong><br>
+        Corrects the geometry-driven bias of conventional isotropic densification under mesh supervision.
+        Instead of inserting primitives at face centroids with isotropic scales, SAAD derives the initial
+        covariance of each new Gaussian from the eigendecomposition of local face vertex covariance,
+        aligning its tangent-plane support with the local surface structure. This turns densification from
+        a purely coverage-seeking operation into a surface-aligned refinement process, improving both
+        geometric coverage and mesh accuracy.
+      </div>
+
+      <div class="method-block">
+        <strong>③ Residual-Based Expressiveness Restoration (RBER)</strong><br>
+        Recovers the fine-scale appearance capacity attenuated by strong surface supervision. Built on top
+        of the geometry-stabilized base, RBER employs two sequential residual stages: a 3D Gaussian
+        deformation residual network (<em>f<sub>DR</sub></em>) that applies local parameter corrections to each
+        Gaussian, followed by a 2D image residual branch using a Local Texture Estimator (<em>f<sub>LTE</sub></em>)
+        that recovers remaining high-frequency texture discrepancy. This restores appearance details
+        without compromising the geometric consistency established by MCDM and SAAD.
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ─── Qualitative Comparison ───────────────────────────────────────────── -->
 <section class="section">
